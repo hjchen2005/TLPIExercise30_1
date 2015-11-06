@@ -4,13 +4,14 @@
 #include "tlpi_hdr.h"
 #include "thread_incr.h"
 
+#define buffSize 100
 
 int main(int argc, char *argv[]) {
     pthread_t t1, t2;
     int loops, s;
-	struct arguments newArgument1;
-	struct arguments newArgument2;
-
+    struct arguments newArgument1;
+    struct arguments newArgument2;
+    char buff[buffSize];
     newArgument1.loops = newArgument2.loops (argc > 1) ? getInt(argv[1], GN_GT_0, "num-loops") : 10000000;
 
     s = pthread_create(&t1, NULL, threadFunc, &newArgument1);
@@ -28,6 +29,13 @@ int main(int argc, char *argv[]) {
         errExitEN(s, "pthread_join");
 
     //printf("glob = %d\n", glob);
-    
+    FILE *fp = fopen("glob.txt", "ab+");
+    if(!fp) {
+        perror("File opening failed");
+        return EXIT_FAILURE;
+    }
+    buff[]= glob;
+    fwrite(buffer, sizeof(char), sizeof(buffer), fp);
+    fclose(fp);
     exit(EXIT_SUCCESS);
 }
