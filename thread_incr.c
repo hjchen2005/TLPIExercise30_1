@@ -4,8 +4,6 @@
 #include "tlpi_hdr.h"
 #include "thread_incr.h"
 
-#define buffSize 100
-
 int main(int argc, char *argv[]) {
     pthread_t t1, t2;
     int loops, s;
