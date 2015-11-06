@@ -11,7 +11,6 @@ int main(int argc, char *argv[]) {
     int loops, s;
     struct arguments newArgument1;
     struct arguments newArgument2;
-    char buff[buffSize];
     newArgument1.loops = newArgument2.loops (argc > 1) ? getInt(argv[1], GN_GT_0, "num-loops") : 10000000;
 
     s = pthread_create(&t1, NULL, threadFunc, &newArgument1);
@@ -34,8 +33,8 @@ int main(int argc, char *argv[]) {
         perror("File opening failed");
         return EXIT_FAILURE;
     }
-    buff[]= glob;
-    fwrite(buffer, sizeof(char), sizeof(buffer), fp);
+    //fwrite(buffer, sizeof(char), sizeof(buffer), fp);
+    fprint(fp,"The value of glob is ",glob);
     fclose(fp);
     exit(EXIT_SUCCESS);
 }
