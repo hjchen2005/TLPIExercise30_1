@@ -1,0 +1,27 @@
+One possible solution would be to set a timer on the open() of the client FIFO using
+alarm(), as described in Section 23.3. This solution suffers from the drawback that
+the server would still be delayed for the period of the timeout. Another possible
+solution would be to open the client FIFO using the O_NONBLOCK flag. If this fails,
+then the server can assume a misbehaving client. This latter solution also requires
+changes to the client, which needs to ensure that it opens its FIFO (also using the
+O_NONBLOCK flag) prior to sending a request to the server. For convenience, the client
+should then turn off the O_NONBLOCK flag for the FIFO file descriptor, so that the
+subsequent read() call blocks. Finally, it is possible to implement a concurrent
+server solution for this application, with the main server process creating a child to
+send the response message to each client. (This would represent a rather resource-
+expensive solution in the case of this simple application.)
+Other conditions that are not handled by this server remain. For example, it
+doesn’t handle the possibilities of the sequence number overflowing or a misbehaving
+client requesting large groups of sequence numbers in order to produce such over-
+flows. The server also does not handle the possibility that the client specifies a negative
+value for the sequence length. Furthermore, a malicious client could create its
+reply FIFO, and then open the FIFO for reading and writing, and fill it with data
+before sending a request to the server; as a consequence, the server would be able
+to successfully open the reply FIFO, but would block when it tries to write the
+reply. As a further exercise, you could try to devise strategies for dealing with these
+possibilities.
+In Section 44.8, we also noted another limitation that applies to the server in
+Listing 44-7: if a client sends a message that contains the wrong number of bytes,
+then the server will be out of step when reading all subsequent client messages.
+One simple way to deal with this problem is to discard the use of fixed-length mes-
+sages in favor of the use of a delimiter character.
