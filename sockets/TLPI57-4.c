@@ -1,11 +1,17 @@
-//#include "us_xfr.h"
+/*
+This program will get a EPERM error. On Linux, the sendto() call fails with the error EPERM. On some other UNIX systems,
+a different error results. Some other UNIX implementations don’t enforce this
+constraint, letting a connected UNIX domain datagram socket receive datagrams
+from a sender other than its peer.
+*/
+
+#include "us_xfr.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <string.h>
-#include "logger.h"
 
 void logger(const char* tag, const char* message);
 void logger(const char* tag, const char* message) {
@@ -46,19 +52,26 @@ int main(int ac, char *av[]){
 	addr_b.sun_family = AF_UNIX;
 	strncpy(addr_b.sun_path, SOCKb, sizeof(addr_b.sun_path) -1);
 	if (bind(sfd1, (struct sockaddr*) &addr_b, sizeof(struct sockaddr_un))== -1)
-		logger(SOCKb,"binding socket A failed");
+		logger(SOCKb,"binding socket B failed");
 	if (connect(sfd,(struct sockaddr *) &addr_b, sizeof(struct sockaddr_un))==-1)
-		logger(SOCKc,"binding socket A failed");
+		logger(SOCKc,"binding socket B failed");
 
 	//Binding socket c
 	memset (&addr_c, 0, sizeof(struct sockaddr_un));
 	addr_c.sun_family = AF_UNIX;
 	strncpy(addr_c.sun_path, SOCKc, sizeof(addr_c.sun_path) -1);
-	if (bind(sfd2, (struct sockaddr*) &addr_c, sizeof(struct sockaddr_un))== -1)
-		errExit("bind");
-	if (connect(sfd,(struct sockaddr *) &addr_b, sizeof(struct sockaddr_un))==-1)
-		errExit("connect");
+
+	if (bind(sfd2, (struct sockaddr*) &addr_c, sizeof(struct sockaddr_un))== -1){
+		errExit("bind");	
+	}
+
+	if (connect(sfd,(struct sockaddr *) &addr_b, sizeof(struct sockaddr_un))==-1){
 		errExit("send to");
+	}
+
+	if (sendto(sfd2,s1,msglen,0,(struct sockaddr*)&addr_a,sizeof(struct sockaddr_un))==-1){
+		errExit("send to");
+	}
 
 	return 0;
 }
