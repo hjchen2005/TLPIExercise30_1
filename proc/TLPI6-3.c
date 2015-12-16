@@ -7,9 +7,10 @@
  */
 
 #include <stdlib.h>
-#inlcude <stdio.h>
+#include <stdio.h>
 #include <errno.h>
 #include <malloc.h>
+#include <string.h>
 
 extern char **environ;
 
@@ -23,7 +24,7 @@ int setenv(const char *envname, const char *envval, int overwrite)
 		errno = EINVAL;
 		return -1;
 	}
-	if (strchr(nvname, '=') != NULL) {
+	if (strchr(envname, '=') != NULL) {
 		errno = EINVAL;
 		return -1;
 	}
@@ -32,7 +33,7 @@ int setenv(const char *envname, const char *envval, int overwrite)
 	for (ppEnvEntry = environ; *ppEnvEntry != NULL; ppEnvEntry++) {
 		/* looking for '{envname}=' */
 		if (strncmp(*ppEnvEntry, envname, strlen(envname)) == 0 &&
-		    *ppEnvEntry[strlne(envname)] == '=') {
+		    *ppEnvEntry[strlen(envname)] == '=') {
 			if (overwrite == 0)
 				return 0; /* we are done here */
 			break; /* we found our entry */
@@ -46,9 +47,9 @@ int setenv(const char *envname, const char *envval, int overwrite)
 	 * so we can continue to treat it as a list.
 	 */
 	pNewEnvEntry  = malloc(strlen(envname) + strlen(envval) + 2);
-	sprintf(pNewEnvEntry, "%s=%s", envname, enval);
+	sprintf(pNewEnvEntry, "%s=%s", envname, envval);
 	ppEnvEntry = pNewEnvEntry;
-	(++ppEnvEntry) = NULL;
+	(ppEnvEntry) = NULL;
 	return 0;
 }
 
@@ -96,7 +97,7 @@ int unsetenv(const char *name)
 		errno = EINVAL;
 		return -1;
 	}
-	if (strchr(nvname, '=') != NULL) {
+	if (strchr(name, '=') != NULL) {
 		errno = EINVAL;
 		return -1;
 	}
@@ -105,7 +106,7 @@ int unsetenv(const char *name)
 	for (ppTargetLocation = environ; *ppTargetLocation != NULL; ppTargetLocation++) {
 		/* looking for '{name}=' */
 		if (strncmp(*ppTargetLocation, name, strlen(name)) == 0 &&
-		    *ppTargetLocation[strlne(name)] == '=') {
+		    *ppTargetLocation[strlen(name)] == '=') {
 			break; /* we found our entry */
 		}
 	}
