@@ -1,5 +1,5 @@
-#ifndef THREAD_INCR.H
-#define THREAD_INCR.H
+#ifndef THREAD_INCR_H
+#define THREAD_INCR_H
 
 struct arguments {
     int loops;
