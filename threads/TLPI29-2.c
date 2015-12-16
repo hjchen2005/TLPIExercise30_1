@@ -1,3 +1,5 @@
+//After the main thread terminates, threadFunc() will continue working with storage 
+//on the main thread’s stack, with unpredictable results.
 #include <pthread>
 #include <sys/types.h>
 #include <stdio.h>
