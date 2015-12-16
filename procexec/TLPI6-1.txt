@@ -1,0 +1,3 @@
+Since the array mbuf is not initialized, it is part of the uninitialized data segment. 
+Therefore, no disk space is required to hold this variable. Instead, it is allocated 
+(and initialized to 0) when the program is loaded. 
