@@ -1,3 +1,18 @@
+44-5
+It creates a race condition. Suppose that between the time the server sees end-of- 
+file and the time it closes the file reading descriptor, a client opens the FIFO for writing (this will succeed without blocking), and then writes data to the FIFO after 
+the server has closed the reading descriptor. At this point, the client will receive a 
+SIGPIPE signal, since no process has the FIFO open for reading. Alternatively, the 
+client might be able to both open the FIFO and write data to it before the server 
+closes the reading descriptor. In this case, the client’s data would be lost, and it 
+wouldn’t receive a response from the server. As a further exercise, you could try to 
+demonstrate these behaviors by making the suggested modification to the server 
+and creating a special-purpose client that repeatedly opens the server’s FIFOs, 
+sends a message to the server, closes the server’s FIFO, and reads the server’s 
+response (if any). 
+
+
+44-6
 One possible solution would be to set a timer on the open() of the client FIFO using
 alarm(), as described in Section 23.3. This solution suffers from the drawback that
 the server would still be delayed for the period of the timeout. Another possible
