@@ -20,8 +20,11 @@ int main(int argc, char *argv[]) {
     pthread_t thr;
     int s;
     s = pthread_create(&thr, NULL, threadFunc, (void *) &buf);
-    if (s!=0)
+    if (s!=0){
         printf("thread creation failed \n");
-    pthread_exit(NULL);
+        pthread_exit(NULL);
+    }
+    if (!pthread_equal(s, pthread_self()))
+        pthread_join(s, NULL);
     return 0;
 }
