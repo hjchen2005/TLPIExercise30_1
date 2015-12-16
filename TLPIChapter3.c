@@ -1,8 +1,8 @@
-#include <stdio>
+#include <stdio.h>
 
 int main (int argc, char* argv[]){
-  if (argc<2)
-    printf("something is wrong");
-  printf("Hello world");
+  if (argc<1)
+    printf("something is wrong \n");
+  printf("Hello world \n");
   return 0;
 }
