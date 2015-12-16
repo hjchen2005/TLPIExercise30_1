@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
     int loops, s;
     struct arguments newArgument1;
     struct arguments newArgument2;
-    newArgument1.loops = newArgument2.loops (argc > 1) ? getInt(argv[1], GN_GT_0, "num-loops") : 10000000;
+    //newArgument1.loops = newArgument2.loops (argc > 1) ? getInt(argv[1], GN_GT_0, "num-loops") : 10000000;
 
     s = pthread_create(&t1, NULL, threadFunc, &newArgument1);
     if (s != 0)
