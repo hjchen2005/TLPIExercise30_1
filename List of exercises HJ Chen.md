@@ -7,5 +7,5 @@
 - 29.1: threads/simple_thread.c
 - 29.2: threads/TLPI29-2.c
 - 30.1: threads/thread_incr.c, threads/thread_incr.h
-- 44.6: pipes/TLPI44-6.txt
+- 44.5 & 44.6: pipes/TLPI44.txt
 - 57.4: sockets/TLPI57-4.c
