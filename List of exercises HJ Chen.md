@@ -2,7 +2,7 @@
 - Chapter 3: TLPIChapter3.c
 - 4.1: fileio/TLPI4-1.c
 - 6.1: proc/TLPI6-1.txt
-- 6.3: proc/setenv.c
+- 6.3: proc/TLPI6-3.c (my implementation), proc/setenv.c (book solution)
 - 24.5: procexec/TLPI24-5.txt
 - 29.1: threads/simple_thread.c
 - 29.2: threads/TLPI29-2.c
